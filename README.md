@@ -1,6 +1,8 @@
 # Subtask warrior
 Subtasks in Taskwarrior
 
+[![Pylint](https://github.com/cakira/subtaskwarrior/actions/workflows/lint.yml/badge.svg)](https://github.com/cakira/subtaskwarrior/actions/workflows/lint.yml)
+
 ## About
 This is an extension to [Taskwarrior](https://taskwarrior.org/) whose
 objective is to add subtasks to it.

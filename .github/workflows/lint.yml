@@ -1,0 +1,72 @@
+name: Lint tests
+
+on: [push]
+
+env:
+  PYTHON_DEFAULT_VERSION: "3.10"
+
+jobs:
+  pylint:
+    name: Run a static analysis (lint) with pylint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ env.PYTHON_DEFAULT_VERSION }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Analysing the code with pylint
+      run: |
+        pylint -j 0 -f colorized \
+          -d missing-function-docstring \
+          -r yes $(git ls-files '*.py')
+
+
+  flake8:
+    name: Run a static analysis (lint) with flake8
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ env.PYTHON_DEFAULT_VERSION }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        flake8 --show-source --statistics
+
+
+  pylint_old_versions:
+    name: Run a static analysis (lint) with
+          pylint version ${{ matrix.python-version }}
+    needs: pylint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Analysing the code with pylint
+      run: |
+        pylint -j 0 -f colorized \
+          -d missing-function-docstring \
+          -r yes $(git ls-files '*.py')
