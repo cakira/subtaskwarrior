@@ -1,4 +1,10 @@
 #!/bin/env python3
+"""
+Subtaskwarrior - Subtasks in Taskwarrior
+
+This Python code accepts commands to deal with subtasks, then generates commands
+to taskwarrior.
+"""
 
 import argparse
 import json
@@ -38,7 +44,7 @@ def transform_rc_argument_in_optional_argv_argument():
 def get_tasks(args):
     rc_argument = f'rc:{args.rc}' if args.rc else ''
     command = f'task {rc_argument} export'
-    process = subprocess.run(command.split(), capture_output=True)
+    process = subprocess.run(command.split(), capture_output=True, check=True)
     json_exported_data = process.stdout.decode('UTF-8')
     tasks = json.loads(json_exported_data)
     return tasks
@@ -47,7 +53,8 @@ def get_tasks(args):
 def get_subtasks(parent_task, all_tasks):
     subtasks_uuid = parent_task['subtasks'].split(',')
     subtasks_sub_uuid = ['-'.join(uuid.split('-')[1:]) for uuid in subtasks_uuid]
-    subtasks = [task for task in all_tasks if '-'.join(task['uuid'].split('-')[1:]) in subtasks_sub_uuid]
+    subtasks = [task for task in all_tasks
+                if '-'.join(task['uuid'].split('-')[1:]) in subtasks_sub_uuid]
     return subtasks
 
 
@@ -61,13 +68,13 @@ def print_subtasks(subtasks, args):
         full_command = ['script', '-q', '-c', command]
     else:
         full_command = command.split()
-    process = subprocess.run(full_command, capture_output=True)
+    process = subprocess.run(full_command, capture_output=True, check=True)
     print(process.stdout.decode('UTF-8'))
 
 
 def has_script_command():
     try:
-        subprocess.run(['script', '--version'], stdout=subprocess.PIPE)
+        subprocess.run(['script', '--version'], stdout=subprocess.PIPE, check=True)
         script_command_exists = True
     except FileNotFoundError:
         script_command_exists = False
