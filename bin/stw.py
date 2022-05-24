@@ -8,7 +8,8 @@ commands to taskwarrior.
 
 import argparse
 import json
-import subprocess
+import shlex
+import subprocess  # nosec (skip bandit's the security check)
 import sys
 
 
@@ -47,7 +48,7 @@ def transform_rc_argument_in_optional_argv_argument():
 def get_tasks(args):
     rc_argument = f'rc:{args.rc}' if args.rc else ''
     command = f'task {rc_argument} export'
-    process = subprocess.run(command.split(), capture_output=True, check=True)
+    process = secure_subprocess_run(command, capture_output=True)
     json_exported_data = process.stdout.decode('UTF-8')
     tasks = json.loads(json_exported_data)
     return tasks
@@ -72,22 +73,29 @@ def print_subtasks(subtasks, args):
 
     command = f'task {rc_argument} {subtasks_as_string}'
     if has_script_command():
-        full_command = ['script', '-q', '-c', command]
+        full_command = f'script -q -c "{command}"'
     else:
-        full_command = command.split()
-    process = subprocess.run(full_command, capture_output=True, check=True)
+        full_command = command
+    process = secure_subprocess_run(full_command, capture_output=True)
     print(process.stdout.decode('UTF-8'))
 
 
 def has_script_command():
     try:
-        subprocess.run(['script', '--version'],
-                       stdout=subprocess.PIPE,
-                       check=True)
+        secure_subprocess_run('script --version', stdout=subprocess.PIPE)
         script_command_exists = True
     except FileNotFoundError:
         script_command_exists = False
     return script_command_exists
+
+
+def secure_subprocess_run(command, *args, **kwargs):
+    command_list = shlex.split(command)
+    return subprocess.run(  # nosec (skip bandit's security check)
+        command_list,
+        check=True,
+        *args,
+        **kwargs)
 
 
 if __name__ == "__main__":
