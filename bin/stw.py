@@ -11,10 +11,12 @@ import json
 import subprocess
 import sys
 
+
 def main():
     args = get_args()
     tasks = get_tasks(args)
-    parent_task = next((task for task in tasks if task['id'] == args.filter), None)
+    parent_task = next((task for task in tasks if task['id'] == args.filter),
+                       None)
     if parent_task:
         if 'subtasks' in parent_task:
             subtasks = get_subtasks(parent_task, tasks)
@@ -23,7 +25,8 @@ def main():
 
 def get_args():
     transform_rc_argument_in_optional_argv_argument()
-    parser = argparse.ArgumentParser(description='Subtask processing for taskwarrior.')
+    parser = argparse.ArgumentParser(
+        description='Subtask processing for taskwarrior.')
     parser.add_argument('-rc')
     subparsers = parser.add_subparsers(help='sub-command help')
 
@@ -38,7 +41,7 @@ def transform_rc_argument_in_optional_argv_argument():
     rc_elements = [arg for arg in sys.argv if arg.startswith('rc:')]
     if len(rc_elements) > 0:
         i = sys.argv.index(rc_elements[0])
-        sys.argv[i:i+1] = '-rc', rc_elements[0][3:]
+        sys.argv[i:i + 1] = '-rc', rc_elements[0][3:]
 
 
 def get_tasks(args):
@@ -52,9 +55,13 @@ def get_tasks(args):
 
 def get_subtasks(parent_task, all_tasks):
     subtasks_uuid = parent_task['subtasks'].split(',')
-    subtasks_sub_uuid = ['-'.join(uuid.split('-')[1:]) for uuid in subtasks_uuid]
-    subtasks = [task for task in all_tasks
-                if '-'.join(task['uuid'].split('-')[1:]) in subtasks_sub_uuid]
+    subtasks_sub_uuid = [
+        '-'.join(uuid.split('-')[1:]) for uuid in subtasks_uuid
+    ]
+    subtasks = [
+        task for task in all_tasks
+        if '-'.join(task['uuid'].split('-')[1:]) in subtasks_sub_uuid
+    ]
     return subtasks
 
 
@@ -74,7 +81,9 @@ def print_subtasks(subtasks, args):
 
 def has_script_command():
     try:
-        subprocess.run(['script', '--version'], stdout=subprocess.PIPE, check=True)
+        subprocess.run(['script', '--version'],
+                       stdout=subprocess.PIPE,
+                       check=True)
         script_command_exists = True
     except FileNotFoundError:
         script_command_exists = False
