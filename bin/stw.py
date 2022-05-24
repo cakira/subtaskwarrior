@@ -72,21 +72,7 @@ def print_subtasks(subtasks, args):
     rc_argument = f'rc:{args.rc}' if args.rc else ''
 
     command = f'task {rc_argument} {subtasks_as_string}'
-    if has_script_command():
-        full_command = f'script -q -c "{command}"'
-    else:
-        full_command = command
-    process = secure_subprocess_run(full_command, capture_output=True)
-    print(process.stdout.decode('UTF-8'))
-
-
-def has_script_command():
-    try:
-        secure_subprocess_run('script --version', stdout=subprocess.PIPE)
-        script_command_exists = True
-    except FileNotFoundError:
-        script_command_exists = False
-    return script_command_exists
+    secure_subprocess_run(command, capture_output=False)
 
 
 def secure_subprocess_run(command, *args, **kwargs):
