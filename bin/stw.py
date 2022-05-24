@@ -2,8 +2,8 @@
 """
 Subtaskwarrior - Subtasks in Taskwarrior
 
-This Python code accepts commands to deal with subtasks, then generates commands
-to taskwarrior.
+This Python code accepts commands to deal with subtasks, then generates
+commands to taskwarrior.
 """
 
 import argparse
