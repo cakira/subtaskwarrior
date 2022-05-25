@@ -53,6 +53,15 @@ Subtasks      61508f-8d22-498b-90b0-b116a42dfb7a,09a2a6-54d6-48cc-b3ca-54bbea599
 I'm using [Grit task manager](https://github.com/climech/grit) as
 inspiration for the commands.
 
+## Unit tests
+The unit tests can be executed from the repository root folder with the command:
+`python -m unittest` or `pytest`[^1]
+
+You can add the argument '-v' to both commands above to have a verbose output.
+
+[^1]: pytest have a colored output, but it's necessary to install the tool
+      first with the command `pip3 install -U pytest`
+
 ## License
 This code is released under the MIT license. For details check the
 [LICENSE](LICENSE) file.
