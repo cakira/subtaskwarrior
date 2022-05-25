@@ -14,7 +14,7 @@ import sys
 
 
 def main():
-    args = get_args()
+    args = get_args(sys.argv)
     tasks = get_tasks(args)
     parent_task = next((task for task in tasks if task['id'] == args.filter),
                        None)
@@ -24,25 +24,26 @@ def main():
             print_subtasks(subtasks, args)
 
 
-def get_args():
-    transform_rc_argument_in_optional_argv_argument()
+def get_args(argv):
+    transform_rc_argument_in_optional_argv_argument(argv)
     parser = argparse.ArgumentParser(
-        description='Subtask processing for taskwarrior.')
+        description='Subtask processing for taskwarrior.',
+        argument_default=argparse.SUPPRESS)
     parser.add_argument('-rc')
     subparsers = parser.add_subparsers(help='sub-command help')
 
     parser_tree = subparsers.add_parser('tree', help='Generate tree view')
     parser_tree.set_defaults(command='tree')
     parser_tree.add_argument('filter', type=int, help='filter help')
-    args = parser.parse_args()
+    args = parser.parse_args(argv[1:])
     return args
 
 
-def transform_rc_argument_in_optional_argv_argument():
-    rc_elements = [arg for arg in sys.argv if arg.startswith('rc:')]
+def transform_rc_argument_in_optional_argv_argument(argv):
+    rc_elements = [arg for arg in argv if arg.startswith('rc:')]
     if len(rc_elements) > 0:
-        i = sys.argv.index(rc_elements[0])
-        sys.argv[i:i + 1] = '-rc', rc_elements[0][3:]
+        i = argv.index(rc_elements[0])
+        argv[i:i + 1] = '-rc', rc_elements[0][3:]
 
 
 def get_tasks(args):
