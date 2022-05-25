@@ -16,8 +16,8 @@ import sys
 def main():
     args = get_args(sys.argv)
     tasks = get_tasks(args)
-    parent_task = next((task for task in tasks if task['id'] == args.filter),
-                       None)
+    parent_task = next(
+        (task for task in tasks if task['id'] == args['filter']), None)
     if parent_task:
         if 'subtasks' in parent_task:
             subtasks = get_subtasks(parent_task, tasks)
@@ -35,7 +35,7 @@ def get_args(argv):
     parser_tree = subparsers.add_parser('tree', help='Generate tree view')
     parser_tree.set_defaults(command='tree')
     parser_tree.add_argument('filter', type=int, help='filter help')
-    args = parser.parse_args(argv[1:])
+    args = vars(parser.parse_args(argv[1:]))
     return args
 
 
@@ -47,7 +47,7 @@ def transform_rc_argument_in_optional_argv_argument(argv):
 
 
 def get_tasks(args):
-    rc_argument = f'rc:{args.rc}' if args.rc else ''
+    rc_argument = f'rc:{args["rc"]}' if 'rc' in args else ''
     command = f'task {rc_argument} export'
     process = secure_subprocess_run(command, capture_output=True)
     json_exported_data = process.stdout.decode('UTF-8')
@@ -70,7 +70,7 @@ def get_subtasks(parent_task, all_tasks):
 def print_subtasks(subtasks, args):
     subtasks_id = [task['id'] for task in subtasks]
     subtasks_as_string = ','.join([str(id) for id in subtasks_id])
-    rc_argument = f'rc:{args.rc}' if args.rc else ''
+    rc_argument = f'rc:{args["rc"]}' if 'rc' in args else ''
 
     command = f'task {rc_argument} {subtasks_as_string}'
     secure_subprocess_run(command, capture_output=False)
