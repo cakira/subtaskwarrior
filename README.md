@@ -57,10 +57,14 @@ I'm using [Grit task manager](https://github.com/climech/grit) as
 inspiration for the commands.
 
 ## License
-This code is released under the MIT license. For details check the
-[LICENSE](LICENSE) file.
+This code is released under the MIT license. Please refer to the
+[LICENSE](LICENSE) file for details.
 
 ## Related projects
+* [taskwarrior-subtask-capsule](https://github.com/mokrunka/taskwarrior-subtask-capsule):
+  Since I discovered this project, I did not took time to test it, but it
+  seems functional, since it has 3 contributors and even a pull request.
+  The last update was in 2020.
 * [tw-subtask-sh](https://github.com/linuxcaffe/tw-subtask-sh): _"A
   taskwarrior script to create, list and invoke subtasks, which are
   maintained as task annotations."_ - Its status is pre-alpha and the
