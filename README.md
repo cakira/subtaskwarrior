@@ -16,6 +16,11 @@ I'm just a user of taskwarrior and not affiliated with its developers in
 any way.
 
 ## Current state
+
+_*Edit:* as of 14 April 2023, this project is on hold until I advance my
+other project, [Todowarrior](https://github.com/cakira/todowarrior) (to
+sync Taskwarrior and [Toodledo](https://www.toodledo.com/))._
+
 It's in a very early version. All I can do it to print the subtasks of a
 task (command `tree`), as seen below:
 
