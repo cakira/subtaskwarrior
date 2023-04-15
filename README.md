@@ -9,8 +9,8 @@ objective is to add subtasks to it.
 command line interface.
 
 There is an [open issue on Taskwarrior](https://github.com/GothenburgBitFactory/taskwarrior/issues/2279)
-asking for subtasks, but as of May 15th 2022 no real progress in that
-issue has been made.
+asking for subtasks, but as of May 15th 2022 no real progress has been
+made on that issue.
 
 I'm just a user of taskwarrior and not affiliated with its developers in
 any way.
@@ -21,12 +21,12 @@ _*Edit:* as of 14 April 2023, this project is on hold until I advance my
 other project, [Todowarrior](https://github.com/cakira/todowarrior) (to
 sync Taskwarrior and [Toodledo](https://www.toodledo.com/))._
 
-It's in a very early version. All I can do it to print the subtasks of a
+It's in a very early version. All it can do is to print the subtasks of a
 task (command `tree`), as seen below:
 
 ![Current state of subtaskwarrior](doc/current_state.png)
 
-Its not possible to use the command to create subtasks yet, so the link
+It's not possible to use the command to create subtasks yet, so the link
 between the parent task and its subtasks was created manually, just for
 the sake of this test.
 
