@@ -2,6 +2,7 @@
 Subtasks in Taskwarrior
 
 [![Pylint](https://github.com/cakira/subtaskwarrior/actions/workflows/lint.yml/badge.svg)](https://github.com/cakira/subtaskwarrior/actions/workflows/lint.yml)
+[![Security](https://github.com/cakira/subtaskwarrior/actions/workflows/security.yml/badge.svg)](https://github.com/cakira/subtaskwarrior/actions/workflows/security.yml)
 
 ## About
 This is an extension to [Taskwarrior](https://taskwarrior.org/) whose
